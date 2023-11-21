@@ -5,12 +5,15 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon main.js"
+    "start": "nodemon main.js",
+    "setup": "concurrently  \"cd authentication && yarn install \" \"cd organization && yarn install \" \"cd schema && yarn install \" \"yarn install \"",
+    "execute": "concurrently  \"cd authentication && yarn start \" \"cd organization && yarn start \" \"cd schema && yarn start \" \"yarn start \""
   },
   "dependencies": {
     "@prisma/client": "^5.5.2",
     "axios": "^1.6.0",
     "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
