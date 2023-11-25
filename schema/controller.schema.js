@@ -2,6 +2,7 @@ import { prisma } from "../services/prisma.js";
 import {
   allSchemas,
   doesOrganizationExist,
+  getSpecificSchema,
   newSchema,
   schemaExists,
 } from "./middlewares/schema.db.js";
@@ -19,6 +20,25 @@ export const getAllSchemas = async (req, res) => {
     return res
       .status(500)
       .json({ error: "Error while retrieving all schemas" });
+  }
+};
+
+export const getSpecificSchemaDetails = async (req, res) => {
+  try {
+    const orgId = parseInt(req.params.id, 10);
+    const name = req.params.name;
+    const data = await getSpecificSchema(name, orgId);
+    if (!data) {
+      res.status(404).json({ message: "Could not find the specific schema" });
+    }
+    res
+      .status(200)
+      .json({ message: "Retrieved schema details succesfully", data });
+  } catch (err) {
+    console.error("Error while retrieving schema details", err);
+    return res
+      .status(500)
+      .json({ error: "Error while retrieving schema details" });
   }
 };
 

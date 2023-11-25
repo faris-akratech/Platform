@@ -47,7 +47,7 @@ export const newSchema = async (
 export const allSchemas = async (orgId, payload) => {
   const sortingField = payload.sorting || "createDateTime";
   const orderByDirection = payload.sortByValue === "DESC" ? "desc" : "asc";
-  const searchByText = payload.searchByText ?? '';
+  const searchByText = payload.searchByText ?? "";
 
   const schemasResult = await prisma.schema.findMany({
     where: {
@@ -81,6 +81,35 @@ export const allSchemas = async (orgId, payload) => {
   });
 
   return { schemasCount, schemasResult };
+};
+
+export const getSpecificSchema = async (schemaName, orgId) => {
+  try {
+    const specificSchema = await prisma.schema.findFirst({
+      where: {
+        name: {
+          equals: schemaName,
+          mode: "insensitive",
+        },
+        orgId: {
+          equals: orgId,
+        },
+      },
+      select: {
+        createDateTime: true,
+        name: true,
+        version: true,
+        attributes: true,
+        createdBy: true,
+        orgId: true,
+      },
+    });
+
+    return specificSchema;
+  } catch (error) {
+    console.error(`Error while retrieving specific schema: ${error}`);
+    throw error;
+  }
 };
 
 export const doesOrganizationExist = async (orgId) => {
