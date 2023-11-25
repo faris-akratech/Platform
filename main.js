@@ -95,6 +95,29 @@ app.all("/schema/*", async (req, res) => {
   }
 });
 
+// Forward request to ecosystem server
+app.all("/ecosystem/*", async (req, res) => {
+  const path = req.url.replace(/\/+/g, "/");
+  const server = `${process.env.ECOSYSTEM_SERVER}${path}/`;
+  const data = { ...req.body, ...req.headers };
+  try {
+    const method = req.method.toLowerCase();
+    const response = await axios({
+      method,
+      url: server,
+      data: data,
+    });
+    res.status(response.status).json(response.data);
+  } catch (err) {
+    console.error("Error forwarding request to ecosystem server");
+    res.status(err.response?.status || 500).json({
+      error: err.response?.data?.message
+        ? err.response.data.message
+        : "Error forwarding request to ecosystem server",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
