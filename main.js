@@ -15,6 +15,11 @@ app.use(logger("dev"));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 
+// Testing endpoint
+app.get("/test",(req, res) => {
+  return res.status(200).json({ message: "Main server works" });
+});
+
 app.get("/", async (req, res) => {
   const authHeader = req.headers["authorization"];
   const iv = req.headers["value"];
