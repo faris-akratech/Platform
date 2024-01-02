@@ -1,5 +1,6 @@
 import { prisma } from "./prisma.js";
 import jwt from "jsonwebtoken";
+import CryptoJS from "crypto-js";
 
 export const checkToken = async (token, iv) => {
   try {

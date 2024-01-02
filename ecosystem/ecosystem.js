@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const app = express();
-const port = process.env.PORT || 3004;
+const port = process.env.ECOSYSTEM_SERVER || 3004;
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(logger("dev"));

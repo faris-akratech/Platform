@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.AUTH_SERVER || 3001;
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/auth", authRoutes);

@@ -37,6 +37,7 @@ export const newOrganization = async (req, res) => {
       orgSlug,
     };
     await createOrganization(orgDetails, userId);
+    // Organization becomes the university. So API call to be made to indy to register this university.
 
     res.status(200).json({ message: "Organization created succesfully" });
   } catch (err) {
