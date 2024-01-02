@@ -15,6 +15,11 @@ app.use(logger("dev"));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 
+// Testing endpoint
+app.get("/test",(req, res) => {
+  return res.status(200).json({ message: "Main server works" });
+});
+
 app.get("/", async (req, res) => {
   const authHeader = req.headers["authorization"];
   const iv = req.headers["value"];
@@ -30,7 +35,7 @@ app.get("/", async (req, res) => {
 // Forward request to authentication server
 app.all("/auth/*", async (req, res) => {
   const path = req.url.replace(/\/+/g, "/");
-  const server = `${process.env.AUTH_SERVER}${path}/`;
+  const server = `http://localhost:${process.env.AUTH_SERVER}${path}/`;
   try {
     const method = req.method.toLowerCase();
     const response = await axios({
@@ -52,7 +57,7 @@ app.all("/auth/*", async (req, res) => {
 // Forward request to organization server
 app.all("/organization/*", async (req, res) => {
   const path = req.url.replace(/\/+/g, "/");
-  const server = `${process.env.ORG_SERVER}${path}/`;
+  const server = `${process.env.SUBSERVER_DOMAIN}:${process.env.ORG_SERVER}${path}/`;
   const data = { ...req.body, ...req.headers };
   const method = req.method.toLowerCase();
   try {
@@ -75,7 +80,7 @@ app.all("/organization/*", async (req, res) => {
 // Forward request to schema server
 app.all("/schema/*", async (req, res) => {
   const path = req.url.replace(/\/+/g, "/");
-  const server = `${process.env.SCHEMA_SERVER}${path}/`;
+  const server = `${process.env.SUBSERVER_DOMAIN}:${process.env.SCHEMA_SERVER}${path}/`;
   const data = { ...req.body, ...req.headers };
   try {
     const method = req.method.toLowerCase();
@@ -98,7 +103,7 @@ app.all("/schema/*", async (req, res) => {
 // Forward request to ecosystem server
 app.all("/ecosystem/*", async (req, res) => {
   const path = req.url.replace(/\/+/g, "/");
-  const server = `${process.env.ECOSYSTEM_SERVER}${path}/`;
+  const server = `${process.env.SUBSERVER_DOMAIN}:${process.env.ECOSYSTEM_SERVER}${path}/`;
   const data = { ...req.body, ...req.headers };
   try {
     const method = req.method.toLowerCase();

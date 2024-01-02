@@ -20,21 +20,21 @@ export const sendEmailForVerification = async (email, verificationCode) => {
 };
 
 export const sendEmail = async (emailData) => {
-  // sendgridClient.setApiKey(process.env.SENDGRID_API_KEY);
-  // const msg = {
-  //   to: emailData.to,
-  //   from: emailData.from,
-  //   subject: emailData.subject,
-  //   text: emailData.text,
-  //   html: emailData.content,
-  //   attachments: emailData.emailAttachments,
-  // };
-  // return await sendgridClient
-  //   .send(msg)
-  //   .then(() => true)
-  //   .catch(() => false);
-  console.log(emailData);
-  return true
+  sendgridClient.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: emailData.to,
+    from: emailData.from,
+    subject: emailData.subject,
+    text: emailData.text,
+    html: emailData.content,
+    attachments: emailData.emailAttachments,
+  };
+  return await sendgridClient
+    .send(msg)
+    .then(() => true)
+    .catch(() => false);
+  // console.log(emailData);
+  // return true
 };
 
 const emailTemplate = (email, verificationCode) => {
