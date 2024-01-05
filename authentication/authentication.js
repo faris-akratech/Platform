@@ -25,5 +25,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Authentication service is running on port ${port}`);
+  console.info(`Authentication service is running on port ${port}`);
 });

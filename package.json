@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon main.js",
     "setup": "concurrently  \"cd authentication && yarn install \" \"cd organization && yarn install \" \"cd schema && yarn install \" \"yarn install \"",
-    "execute": "concurrently  \"cd authentication && yarn start \" \"cd organization && yarn start \" \"cd schema && yarn start \" \"yarn start \""
+    "execute": "concurrently \"yarn start \" \"cd authentication && yarn start \" \"cd organization && yarn start \" \"cd schema && yarn start \" \"cd user && yarn start \""
   },
   "dependencies": {
     "@prisma/client": "^5.5.2",

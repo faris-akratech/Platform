@@ -23,5 +23,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Ecosystem service is running on port ${port}`);
+  console.info(`Ecosystem service is running on port ${port}`);
 });
