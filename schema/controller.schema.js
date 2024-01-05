@@ -1,3 +1,4 @@
+import axios from "axios";
 import { prisma } from "../services/prisma.js";
 import {
   allSchemas,
@@ -54,7 +55,8 @@ export const createSchema = async (req, res) => {
     if (schemaExist.length > 0) {
       return res.status(409).json({ message: "Schema already exists" });
     }
-    await newSchema(schemaName, schemaVersion, attributes, orgId);
+    await newSchema(schemaName, schemaVersion, attributes, orgId)
+    await axios.post('http://localhost:5000/government_transcript_schema')
     return res.status(200).json({ message: "Schema created succesfully" });
   } catch (err) {
     console.error("Error while creating new schema", err);
