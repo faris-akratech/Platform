@@ -54,7 +54,6 @@ export const createSchema = async (req, res) => {
     if (schemaExist.length > 0) {
       return res.status(409).json({ message: "Schema already exists" });
     }
-    console.log(schemaName, schemaVersion, attributes);
     await newSchema(schemaName, schemaVersion, attributes, orgId);
     return res.status(200).json({ message: "Schema created succesfully" });
   } catch (err) {

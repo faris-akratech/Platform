@@ -66,8 +66,6 @@ export const verifyMail = async (req, res) => {
       return res.status(409).json({ message: "User already verified" });
     }
     if (user.verificationCode !== verificationCode.slice(0, -1)) {
-      console.log("User", user.verificationCode);
-      console.log("Verification", verificationCode);
       return res
         .status(406)
         .json({ message: "Verification codes does not match" });
@@ -83,7 +81,6 @@ export const verifyMail = async (req, res) => {
 export const signup = async (req, res) => {
   try {
     const { email, firstName, lastName, password } = req.body;
-    console.log(req.body);
     if (!email || !firstName || !lastName || !password) {
       return res
         .status(404)
@@ -108,7 +105,6 @@ export const signup = async (req, res) => {
     }
     const hash = await bcrypt.hash(password, 10);
     const userInfo = { firstName, lastName, password: hash };
-    console.log(email, "email");
     await updateUserInfo(email, userInfo);
     return res.status(200).json({ message: "User registered succesfully" });
   } catch (err) {
