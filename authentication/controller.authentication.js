@@ -106,7 +106,16 @@ export const signup = async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
     const userInfo = { firstName, lastName, password: hash };
     await updateUserInfo(email, userInfo);
-    return res.status(200).json({ message: "User registered succesfully" });
+
+    // User is the government
+    const data = { name: email };
+    const response = await axios.post(`${process.env.INDY_SERVER}/register_dids_government`, data);
+    if (response.status === 200) {
+      return res.status(200).json({ message: "User created successfully" });
+    } else {
+      return res.status(response.status).json({ message: "Error creating User(government) on ledger" });
+    }
+    // return res.status(200).json({ message: "User registered succesfully" });
   } catch (err) {
     console.error("Error while signup", err);
     return res.status(500).json({ error: "Error while signing up" });

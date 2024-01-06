@@ -38,8 +38,16 @@ export const newOrganization = async (req, res) => {
     };
     await createOrganization(orgDetails, userId);
     // Organization becomes the university. So API call to be made to indy to register this university.
-
-    res.status(200).json({ message: "Organization created succesfully" });
+    // const data = { schemaName, schemaVersion, attributes };
+    // const response = await axios.post(`${process.env.INDY_SERVER}/government_transcript_schema`, data);
+    // if (response.status === 200) {
+    //   return res.status(200).json({ message: "Organization created successfully" });
+    // } else {
+    //   return res.status(response.status).json({ message: "Error creating organization on ledger" });
+    // }
+    return res
+      .status(200)
+      .json({ message: "Organization created successfully" });
   } catch (err) {
     console.error("Error while creating new organization", err);
     return res

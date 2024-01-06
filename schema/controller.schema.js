@@ -56,8 +56,13 @@ export const createSchema = async (req, res) => {
       return res.status(409).json({ message: "Schema already exists" });
     }
     await newSchema(schemaName, schemaVersion, attributes, orgId)
-    await axios.post('http://localhost:5000/government_transcript_schema')
-    return res.status(200).json({ message: "Schema created succesfully" });
+    const data = { schemaName, schemaVersion, attributes };
+    const response = await axios.post(`${process.env.INDY_SERVER}/government_transcript_schema`, data);
+    if (response.status === 200) {
+      return res.status(200).json({ message: "Schema created successfully" });
+    } else {
+      return res.status(response.status).json({ message: "Error creating schema on ledger" });
+    }
   } catch (err) {
     console.error("Error while creating new schema", err);
     return res.status(500).json({ error: "Error while creating new schema" });
