@@ -9,6 +9,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import { sendEmailForVerification } from "./middlewares/sendgrid.js";
+import { createWallet } from "../services/blockchain/wallet.js";
 
 export const sendVerificationMail = async (req, res) => {
   try {
@@ -105,16 +106,26 @@ export const signup = async (req, res) => {
     }
     const hash = await bcrypt.hash(password, 10);
     const userInfo = { firstName, lastName, password: hash };
-    await updateUserInfo(email, userInfo);
-
-    // User is the government
-    const data = { name: email };
-    const response = await axios.post(`${process.env.INDY_SERVER}/register_dids_government`, data);
-    if (response.status === 200) {
-      return res.status(200).json({ message: "User created successfully" });
-    } else {
-      return res.status(response.status).json({ message: "Error creating User(government) on ledger" });
+    const walletDetails = await createWallet(email); // Add this function to create wallet details
+    if (!walletDetails) {
+      return res.status(500).json({ message: "Error creating wallet details" });
     }
+    console.log(walletDetails);
+    // await updateUserInfo(email, userInfo, walletDetails);
+    return res.status(210).json({ message: "User created successfully" });
+    // User is the government
+    // const data = { name: email, seed: "000000000000000000000000Steward1", wallet_config: `${email}_wallet`, wallet_credentials: `${email}_credential` };
+    // const response = await axios.post(`${process.env.INDY_SERVER}/create_wallet`, data);
+    // console.log(response.data, 'hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+    // if (response.data.status_code === 200) {
+    //   return res.status(410).json({ message: "User created successfully" });
+    //   data.steward = JSON.parse(response.data.detail);
+    //   const create_gov = await axios.post(`${process.env.INDY_SERVER}/register_dids_government`, data)
+    //   if(create_gov.status === 200) return res.status(410).json({ message: "User created successfully" });
+    //   return res.status(response.status).json({ message: "Error" });
+    // } else {
+    //   return res.status(response.status).json({ message: "Error creating User(government) on ledger" });
+    // }
     // return res.status(200).json({ message: "User registered succesfully" });
   } catch (err) {
     console.error("Error while signup", err);

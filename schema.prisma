@@ -28,6 +28,25 @@ model user {
   user_activities     user_activity[]
   userDevices         user_devices[]
   userOrgRoles        user_org_roles[]
+  walletDetails       wallet
+}
+
+model wallet {
+  id                  Int               @id @default(autoincrement())
+  createDateTime      DateTime          @default(now()) @db.Timestamptz(6)
+  createdBy           Int               @default(1)
+  lastChangedDateTime DateTime          @default(now()) @db.Timestamptz(6)
+  lastChangedBy       Int               @default(1)
+  did                 String
+  did_info            String            // Change the type based on your requirements
+  key                 String
+  name                String
+  pool                Int
+  seed                String
+  wallet              Int
+  wallet_config       String            // Change the type based on your requirements
+  wallet_credentials  String            // Change the type based on your requirements
+  user                user              @relation(fields: [userId], references: [id])
 }
 
 model user_activity {
