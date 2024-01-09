@@ -14,7 +14,7 @@ export const register_dids_government = async (email, steward) => {
       data
     );
     if (response.data.status_code === 200) {
-      const output = JSON.parse(response.data.detail);
+      const output = response.data.detail;
       return output;
     } else {
       console.error(

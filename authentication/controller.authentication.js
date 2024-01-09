@@ -112,19 +112,17 @@ export const signup = async (req, res) => {
     if (!walletDetails) {
       return res.status(500).json({ message: "Error creating wallet details" });
     }
-    // await updateUserInfo(email, userInfo, walletDetails);
+    await updateUserInfo(email, userInfo, walletDetails);
     // User is the government
-    const registerGovernment = await register_dids_government(email, walletDetails)
+    const registerGovernment = await register_dids_government(
+      email,
+      walletDetails
+    );
     console.log(registerGovernment);
     return res.status(210).json({ message: "User created successfully" });
-    //   data.steward = JSON.parse(response.data.detail);
-    //   const create_gov = await axios.post(`${process.env.INDY_SERVER}/register_dids_government`, data)
-    //   if(create_gov.status === 200) return res.status(410).json({ message: "User created successfully" });
-    //   return res.status(response.status).json({ message: "Error" });
-    // } else {
-    //   return res.status(response.status).json({ message: "Error creating User(government) on ledger" });
-    // }
-    // return res.status(200).json({ message: "User registered succesfully" });
+    if (!registerGovernment) {
+      return res.status(500).json({ message: "Error registering user as the government" });
+    }
   } catch (err) {
     console.error("Error while signup", err);
     return res.status(500).json({ error: "Error while signing up" });

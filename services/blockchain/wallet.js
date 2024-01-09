@@ -13,8 +13,8 @@ export const createWallet = async (email) => {
       `${process.env.INDY_SERVER}/create_wallet`,
       data
     );
-    if (response.data.status_code === 200) {
-      const walletDetails = JSON.parse(response.data.detail);
+    if (response.data.status_code === 200 && response.status === 200) {
+      const walletDetails = response.data.detail;
       return walletDetails;
     } else {
       console.error(
