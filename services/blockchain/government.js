@@ -4,8 +4,8 @@ export const register_dids_government = async (email, steward) => {
   try {
     const data = {
       name: email,
-      wallet_config: `${email}_wallet`,
-      wallet_credentials: `${email}_credential`,
+      wallet_config: `${email}_gov_wallet`,
+      wallet_credentials: `${email}_gov_credential`,
       role: "TRUST_ANCHOR",
       steward,
     };

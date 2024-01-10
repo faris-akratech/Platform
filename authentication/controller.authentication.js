@@ -118,6 +118,7 @@ export const signup = async (req, res) => {
       email,
       walletDetails
     );
+    const da = uuidv4().replace(/-/g, '')
     console.log(registerGovernment);
     return res.status(210).json({ message: "User created successfully" });
     if (!registerGovernment) {
