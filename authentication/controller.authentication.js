@@ -120,10 +120,10 @@ export const signup = async (req, res) => {
     );
     const da = uuidv4().replace(/-/g, '')
     console.log(registerGovernment);
-    return res.status(210).json({ message: "User created successfully" });
     if (!registerGovernment) {
       return res.status(500).json({ message: "Error registering user as the government" });
     }
+    return res.status(200).json({ message: "User created successfully" });
   } catch (err) {
     console.error("Error while signup", err);
     return res.status(500).json({ error: "Error while signing up" });
